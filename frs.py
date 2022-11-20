@@ -14,16 +14,16 @@ face_img_to_check = face_recognition.load_image_file("check.jpg")
 
 known_face_locs = []
 for img in known_face_imgs:
-    loc = face_recognition.face_locations(img, model="cnn")
+    loc = face_recognition.face_locations(img, model="hog")
     assert len(loc) == 1, "画像から顔の検出に失敗したか、2人以上の顔が検出されました"
     known_face_locs.append(loc)
 
-face_loc_to_check = face_recognition.face_locations(face_img_to_check, model="cnn")
+face_loc_to_check = face_recognition.face_locations(face_img_to_check, model="hog")
 assert len(face_loc_to_check) == 1, "画像から顔の検出に失敗したか、2人以上の顔が検出されました"
 
 
 def draw(img, locations):
-    fig, ax = plt.subslots()
+    fig, ax = plt.subplots()
     ax.imshow(img)
     ax.set_axis_off()
     for i, (top, right, bottom, left) in enumerate(locations):
