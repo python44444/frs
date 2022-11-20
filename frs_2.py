@@ -16,7 +16,7 @@ def im(face, data):
     return known_face_imgs, face_img_to_check
 
 
-def loc(known_face_imgs, face_img_to_check):
+def check(known_face_imgs, face_img_to_check):
     known_face_locs = []
     for img in known_face_imgs:
         loc = face_recognition.face_locations(img, model="hog")
@@ -53,19 +53,19 @@ def draw(img, locations):
 
 
 def find(face, data):
-    im = im(face, data)
-    known_face_imgs = im[0]
-    face_img_to_check = im[1]
+    im_r = im(face, data)
+    known_face_imgs = im_r[0]
+    face_img_to_check = im_r[1]
 
-    loc = loc(known_face_imgs, face_img_to_check)
-    known_face_locs = loc[0]
-    face_loc_to_check = loc[1]
+    loc_r = check(known_face_imgs, face_img_to_check)
+    known_face_locs = loc_r[0]
+    face_loc_to_check = loc_r[1]
 
-    encoding = encoding(
+    encoding_r = encoding(
         known_face_imgs, known_face_locs, face_img_to_check, face_loc_to_check
     )
-    known_face_encodings = encoding[0]
-    face_encoding_to_check = encoding[1]
+    known_face_encodings = encoding_r[0]
+    face_encoding_to_check = encoding_r[1]
 
     matches = face_recognition.compare_faces(
         known_face_encodings, face_encoding_to_check
@@ -75,11 +75,11 @@ def find(face, data):
     dists = face_recognition.face_distance(known_face_encodings, face_encoding_to_check)
     print(dists)
 
+    # 認識したい人の顔画像
+    draw(face_img_to_check, face_loc_to_check)
     # 検証用画像
     for img, loc in zip(known_face_imgs, known_face_locs):
         draw(img, loc)
-    # 認識したい顔画像
-    draw(face_img_to_check, face_loc_to_check)
 
 
 face = "check.jpg"
