@@ -49,6 +49,7 @@ def draw(img, locations):
     for i, (top, right, bottom, left) in enumerate(locations):
         w, h = right - left, bottom - top
         ax.add_patch(plt.Rectangle((left, top), w, h, ec="r", lw=2, fill=None))
+        ax.add_patch(plt.text(x=10, y=10, s="text", fontsize="xx-large"))
     plt.show()
 
 

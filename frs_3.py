@@ -1,6 +1,8 @@
+import cv2
 import face_recognition
 import matplotlib.pyplot as plt
 import glob
+import numpy as np
 
 
 def im(face, data):
@@ -42,14 +44,31 @@ def encoding(known_face_imgs, known_face_locs, face_img_to_check, face_loc_to_ch
     return known_face_encodings, face_encoding_to_check
 
 
-# def draw(img, locations):
-# fig, ax = plt.subplots()
-# ax.imshow(img)
-# ax.set_axis_off()
-# for i, (top, right, bottom, left) in enumerate(locations):
-#     w, h = right - left, bottom - top
-#     ax.add_patch(plt.Rectangle((left, top), w, h, ec="r", lw=2, fill=None))
-# plt.show()
+def draw(img, locations):
+    # fig, ax = plt.subplots()
+    # ax.imshow(img)
+    # ax.set_axis_off()
+    for i, (top, right, bottom, left) in enumerate(locations):
+        # w, h = right - left, bottom - top
+        # ax.add_patch(plt.Rectangle((left, top), w, h, ec="r", lw=2, fill=None))
+        cv2.rectangle(
+            img,
+            pt1=(left, top),
+            pt2=(right, bottom),
+            color=(0, 255, 0),
+            thickness=3,
+            lineType=cv2.LINE_4,
+            shift=0,
+        )
+    # plt.show()
+    # points = np.array(locations)
+    # cv2.fillConvexPoly(img, points, color=(0, 0, 0))]
+    # cv2.Rectangle()
+
+    cv2.imshow("image", img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
 
 # face = "check.jpg"
 # data = "images/*"
@@ -58,11 +77,11 @@ def encoding(known_face_imgs, known_face_locs, face_img_to_check, face_loc_to_ch
 # print(im_r[1])
 
 
-def draw(img):
-    from PIL import Image
+# def draw(img):
+#     from PIL import Image
 
-    im = Image.open(img)
-    im.show()
+#     im = Image.open(img)
+#     im.show()
 
 
 def find(face, data):
@@ -84,14 +103,14 @@ def find(face, data):
     print(dists)
 
     # 認識したい人の顔画像
-    # draw(face_img_to_check, face_loc_to_check)
-    draw(face)
+    draw(face_img_to_check, face_loc_to_check)
+    # draw(face)
     # 検証用画像
-    # for img, loc in zip(known_face_imgs, known_face_locs):
-    #     draw(img, loc)
-    paths = glob.glob(data)
-    for path in paths:
-        draw(path)
+    for img, loc in zip(known_face_imgs, known_face_locs):
+        draw(img, loc)
+    # paths = glob.glob(data)
+    # for path in paths:
+    #     draw(path)
 
 
 face = "check.jpg"
