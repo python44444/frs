@@ -42,14 +42,27 @@ def encoding(known_face_imgs, known_face_locs, face_img_to_check, face_loc_to_ch
     return known_face_encodings, face_encoding_to_check
 
 
-def draw(img, locations):
-    fig, ax = plt.subplots()
-    ax.imshow(img)
-    ax.set_axis_off()
-    for i, (top, right, bottom, left) in enumerate(locations):
-        w, h = right - left, bottom - top
-        ax.add_patch(plt.Rectangle((left, top), w, h, ec="r", lw=2, fill=None))
-    plt.show()
+# def draw(img, locations):
+# fig, ax = plt.subplots()
+# ax.imshow(img)
+# ax.set_axis_off()
+# for i, (top, right, bottom, left) in enumerate(locations):
+#     w, h = right - left, bottom - top
+#     ax.add_patch(plt.Rectangle((left, top), w, h, ec="r", lw=2, fill=None))
+# plt.show()
+
+# face = "check.jpg"
+# data = "images/*"
+# im_r = im(face, data)
+# face_img_to_check = im_r[1]
+# print(im_r[1])
+
+
+def draw(img):
+    from PIL import Image
+
+    im = Image.open(img)
+    im.show()
 
 
 def find(face, data):
@@ -71,10 +84,14 @@ def find(face, data):
     print(dists)
 
     # 認識したい人の顔画像
-    draw(face_img_to_check, face_loc_to_check)
+    # draw(face_img_to_check, face_loc_to_check)
+    draw(face)
     # 検証用画像
-    for img, loc in zip(known_face_imgs, known_face_locs):
-        draw(img, loc)
+    # for img, loc in zip(known_face_imgs, known_face_locs):
+    #     draw(img, loc)
+    paths = glob.glob(data)
+    for path in paths:
+        draw(path)
 
 
 face = "check.jpg"
